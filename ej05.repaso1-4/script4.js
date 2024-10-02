@@ -11,3 +11,31 @@
   la partida.
 */
 
+const cartaBtn = document.getElementById("cartaBtn")
+const plantarseBtn = document.getElementById("plantarseBtn")
+const manoUl = document.getElementById("manoUl")
+let partidaEnMarcha = false
+let puntos
+
+cartaBtn.addEventListener("click",function(){
+  if (partidaEnMarcha == false) {
+    puntos = 0
+    partidaEnMarcha = true
+    //this = cartaBtn dentro del ambito del function del addeventlistener
+    this.textContent = "Pedir otra carta"
+    //al principio se dan 2 cartas
+    darCarta()
+    darCarta()
+  } else {
+    darCarta()
+  }
+})
+
+function darCarta() {
+  const cartaRandom = Math.floor(Math.random()*11) + 1
+  //Por un lado, aumentar puntos
+  puntos += cartaRandom
+  //Por otro lado, mostrar la carta en el HTML
+  const nuevoLi = document.createElement("li")
+  nuevoLi.textContent = cartaRandom
+}
