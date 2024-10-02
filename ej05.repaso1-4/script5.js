@@ -4,3 +4,9 @@
   los factoriales de todos los números entre 1 y n.
 */
 
+//Recuperar elementos del Árbol DOM
+
+//Programar eventos
+
+//Funciones auxiliares
+
