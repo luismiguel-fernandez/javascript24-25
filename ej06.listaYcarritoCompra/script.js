@@ -3,6 +3,11 @@ const txtAdd = document.getElementById("txtAdd")
 const mylist = document.getElementById("mylist")
 const btnAdd = document.getElementById("btnAdd")
 
+
+const btnSelAll = document.getElementById("btnSelAll")
+const btnSelNot = document.getElementById("btnSelNot")
+const btnInvSel = document.getElementById("btnInvSel")
+const btnMovSel = document.getElementById("btnMovSel")
 const btnDelSel = document.getElementById("btnDelSel")
 
 
@@ -26,12 +31,18 @@ btnAdd.addEventListener("click",addItemToList)
 
 btnDelSel.addEventListener("click",function(){
     //Recorrer todos los LI y averiguar si están seleccionados o no, para borrarlos
+    // const todosLosLI = mylist.getElementsByTagName("LI")
+    // Array.from(todosLosLI).forEach( li => {
+        //     if ( li.classList.contains("seleccionado"))
+        //         li.remove()
+    // })
+    // for (li of todosLosLI) {
+    //     if ( li.classList.contains("seleccionado"))
+    //         li.remove()
+    // }
     // ALT: recuperar directamente SOLO los que estén seleccionados
-    const todosLosLI = mylist.getElementsByTagName("LI")
-    todosLosLI.forEach( li => {
-        if ( li.classList.contains("seleccionado"))
-            li.remove()
-    })
+    const todosLosLI = mylist.querySelectorAll("li.seleccionado")  
+    todosLosLI.forEach( li => li.remove() )
 })
 
 
