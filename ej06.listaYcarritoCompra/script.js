@@ -1,6 +1,7 @@
 //constantes y variables
 const txtAdd = document.getElementById("txtAdd")
 const mylist = document.getElementById("mylist")
+const mycart = document.querySelector("#mycart")
 const btnAdd = document.getElementById("btnAdd")
 
 
@@ -24,6 +25,44 @@ txtAdd.addEventListener("keyup",function(ev){
 })
 
 btnAdd.addEventListener("click",addItemToList)
+
+
+
+btnSelAll.addEventListener("click",function(){
+    const todosLosLI = mylist.querySelectorAll("li")
+    todosLosLI.forEach( li => li.classList.add("seleccionado") )
+})
+btnSelNot.addEventListener("click",function(){
+    const todosLosLI = mylist.querySelectorAll("li")
+    todosLosLI.forEach( li => li.classList.remove("seleccionado") )
+})
+btnInvSel.addEventListener("click",function(){
+    const todosLosLI = mylist.querySelectorAll("li")
+    todosLosLI.forEach( li => li.classList.toggle("seleccionado") )
+})
+
+
+
+
+
+
+
+
+
+btnMovSel.addEventListener("click",function(){
+    const liSel = mylist.querySelectorAll("li.seleccionado")
+    liSel.forEach( li => {
+        
+    } )
+})
+
+
+
+
+
+
+
+
 
 
 
