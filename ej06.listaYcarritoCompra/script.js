@@ -11,6 +11,7 @@ const btnInvSel = document.getElementById("btnInvSel")
 const btnMovSel = document.getElementById("btnMovSel")
 const btnDelSel = document.getElementById("btnDelSel")
 
+const btnEmpCar = document.getElementById("btnEmpCar")
 
 //al abrir la webapp vaciar la caja de texto y darle el foco
 txtAdd.value = ""
@@ -52,7 +53,12 @@ btnInvSel.addEventListener("click",function(){
 btnMovSel.addEventListener("click",function(){
     const liSel = mylist.querySelectorAll("li.seleccionado")
     liSel.forEach( li => {
-        
+        //crear un nuevo LI para el carrito (clonando el LI original)
+        const nuevoLI = li.cloneNode(true) //cloneNode no clona listeners
+        nuevoLI.classList.remove("seleccionado")
+        mycart.append(nuevoLI)
+        //eliminar el LI original (el de mylist)
+        li.remove()
     } )
 })
 
@@ -85,7 +91,11 @@ btnDelSel.addEventListener("click",function(){
 })
 
 
+btnEmpCar.addEventListener("click",function(){
+    mycart.innerHTML = ""
 
+    //mycart.querySelectorAll("li").forEach(li => li.remove() )
+})
 
 
 
