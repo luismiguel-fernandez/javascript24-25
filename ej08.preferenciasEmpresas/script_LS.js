@@ -120,7 +120,12 @@ function mostrarUltimaInsercion() {
     nuevoBotonBorrar.textContent = "Borrar"
     nuevoBotonBorrar.addEventListener("click",function(){
         //nuevoBotonBorrar.parentElement.parentElement.remove()
+        let nombre = nuevaCelda1.textContent
         nuevaFila.remove()
+        let indice = preferencias.findIndex( pref => pref.name == nombre )
+        preferencias.splice(indice, 1)
+        //propagar cambios al LS
+        localStorage.setItem("preferencias", JSON.stringify(preferencias) )
     })
     nuevaCelda4.append(nuevoBotonBorrar)
 }
@@ -142,7 +147,12 @@ function redibujarPreferencias() {
         nuevoBotonBorrar.textContent = "Borrar"
         nuevoBotonBorrar.addEventListener("click",function(){
             //nuevoBotonBorrar.parentElement.parentElement.remove()
+            let nombre = nuevaCelda1.textContent
             nuevaFila.remove()
+            let indice = preferencias.findIndex( pref => pref.name == nombre )
+            preferencias.splice(indice, 1)
+            //propagar cambios al LS
+            localStorage.setItem("preferencias", JSON.stringify(preferencias) )
         })
         nuevaCelda4.append(nuevoBotonBorrar)
     })
