@@ -120,7 +120,7 @@ function mostrarUltimaInsercion() {
     nuevoBotonBorrar.textContent = "Borrar"
     nuevoBotonBorrar.addEventListener("click",function(){
         //nuevoBotonBorrar.parentElement.parentElement.remove()
-        nuevoTR.remove()
+        nuevaFila.remove()
     })
     nuevaCelda4.append(nuevoBotonBorrar)
 }
@@ -142,7 +142,7 @@ function redibujarPreferencias() {
         nuevoBotonBorrar.textContent = "Borrar"
         nuevoBotonBorrar.addEventListener("click",function(){
             //nuevoBotonBorrar.parentElement.parentElement.remove()
-            nuevoTR.remove()
+            nuevaFila.remove()
         })
         nuevaCelda4.append(nuevoBotonBorrar)
     })
