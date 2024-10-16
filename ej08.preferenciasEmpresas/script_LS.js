@@ -13,27 +13,20 @@ const empresas = [
     "Embargos a lo bestia"
 ]
 
+// let preferencias
+// if ( localStorage.getItem("preferencias") ) {
+//     preferencias = JSON.parse(localStorage.getItem("preferencias") )
+//     redibujarPreferencias()
+// } else
+//     preferencias = []
 
-
-
-let preferencias
-if ( localStorage.getItem("preferencias") ) {
-    preferencias = JSON.parse(localStorage.getItem("preferencias") )
-    redibujarPreferencias()
-} else
-    preferencias = []
-
-
-
-
-
-
-
+//la siguiente asignación equivale a las 6 líneas anteriores
+let preferencias = JSON.parse(localStorage.getItem("preferencias") || "[]")
+redibujarPreferencias()
 
 
 studentName.focus()
 choice2.disabled = true
-//insertButton.disabled = true
 
 //reto 1: rellenar el primer SELECT con estas empresas
 empresas.forEach( (empresa,index) => {
