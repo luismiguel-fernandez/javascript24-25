@@ -1,13 +1,14 @@
 //recuperar elementos del arbol DOM
 const inputName = document.querySelector("#inputName")
 const inputNumber = document.querySelector("#inputNumber")
+const inputSearch = document.querySelector("#inputSearch")
 const btnAdd = document.querySelector("#btnAdd")
 const phonebookTbody = document.querySelector("#phonebooktable>tbody")
 
 let phonebook
 if (localStorage.getItem("phonebookLS")) {
     phonebook = JSON.parse( localStorage.getItem("phonebookLS") )
-    phonebook.forEach( c => addContactToTable( c.name, c.number, c.favorite ) )
+    phonebookToTable(phonebook)
 } else {
     phonebook = []
 }
@@ -32,6 +33,13 @@ inputNumber.addEventListener("keyup",function(ev){
     if (ev.key == "Enter") {
         addContact()
     }
+})
+inputSearch.addEventListener("keyup",function(){
+    //cada pulsacion de tecla del usuario lanza una nueva búsqueda
+    let patron = inputSearch.value.trim()
+    phonebookToTable( phonebook.filter( 
+        c => c.name.toLowerCase().includes(patron.toLowerCase() )
+            || c.number.includes(patron) ) )
 })
 
 //funciones auxiliares
@@ -102,6 +110,10 @@ function deleteContactFromPhonebook(name,number) {
         phonebook.splice(index,1)
         saveToLS()
     }
+}
+function phonebookToTable(phonebook) {
+    phonebookTbody.innerHTML = ""
+    phonebook.forEach( c => addContactToTable( c.name, c.number, c.favorite ) )
 }
 function resetForm() {
     inputName.value = ""
