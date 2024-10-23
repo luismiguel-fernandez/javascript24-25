@@ -3,7 +3,18 @@ const inputName = document.querySelector("#inputName")
 const inputNumber = document.querySelector("#inputNumber")
 const btnAdd = document.querySelector("#btnAdd")
 const phonebookTbody = document.querySelector("#phonebooktable>tbody")
-const phonebook = []
+
+let phonebook
+if (localStorage.getItem("phonebookLS")) {
+    phonebook = JSON.parse( localStorage.getItem("phonebookLS") )
+    phonebook.forEach( c => addContactToTable( c.name, c.number, c.favorite ) )
+} else {
+    phonebook = []
+}
+
+/* versión sintética
+let phonebook = JSON.parse( localStorage.getItem("phonebookLS") || "[]" )
+*/
 
 //código automático (sin eventos de usuario); se ejecuta al cargar la página
 resetForm()
@@ -43,6 +54,7 @@ function addContactToPhonebook(name,number) {
             favorite: false
         }
     )
+    saveToLS()
 }
 function addContactToTable(name,number,favorite=false) {
     let newTR = phonebookTbody.insertRow()
@@ -79,17 +91,23 @@ function addContactToTable(name,number,favorite=false) {
         //cambiar la propiedad "favorite" de ese contacto en el ARRAY
         let index = phonebook.findIndex( c => c.name == name && c.number == number )
         phonebook[index].favorite = !phonebook[index].favorite
+        saveToLS()
     })
     
 }
 function deleteContactFromPhonebook(name,number) {
     //localizar el indice del contacto dado por name y number
     let index = phonebook.findIndex( c => c.name == name && c.number == number )
-    if (index >= 0) phonebook.splice(index,1)
+    if (index >= 0) {
+        phonebook.splice(index,1)
+        saveToLS()
+    }
 }
 function resetForm() {
     inputName.value = ""
     inputNumber.value = ""
     inputName.focus()
 }
-
+function saveToLS() {
+    localStorage.setItem("phonebookLS",JSON.stringify(phonebook))
+}
