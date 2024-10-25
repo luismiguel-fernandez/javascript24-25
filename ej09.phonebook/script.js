@@ -59,11 +59,6 @@ btnShowFav.addEventListener("click",function(){
     filterPhonebook(phonebook)
 })
 
-
-
-
-
-
 thName.addEventListener("click",function() {
     //array.sort()
     //dentro de los paréntesis hay que indicar una función flecha
@@ -77,17 +72,6 @@ thName.addEventListener("click",function() {
         else return 1
     }) )
 })
-
-
-
-
-
-
-
-
-
-
-
 
 //funciones auxiliares
 function addContact() {
