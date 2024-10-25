@@ -3,7 +3,9 @@ const inputName = document.querySelector("#inputName")
 const inputNumber = document.querySelector("#inputNumber")
 const inputSearch = document.querySelector("#inputSearch")
 const btnAdd = document.querySelector("#btnAdd")
+const btnShowFav = document.querySelector("#btnShowFav")
 const phonebookTbody = document.querySelector("#phonebooktable>tbody")
+const thName = document.querySelector("#phonebooktable th")
 
 let phonebook
 if (localStorage.getItem("phonebookLS")) {
@@ -12,6 +14,7 @@ if (localStorage.getItem("phonebookLS")) {
 } else {
     phonebook = []
 }
+let showFavs = false
 
 /* versión sintética
 let phonebook = JSON.parse( localStorage.getItem("phonebookLS") || "[]" )
@@ -36,11 +39,55 @@ inputNumber.addEventListener("keyup",function(ev){
 })
 inputSearch.addEventListener("keyup",function(){
     //cada pulsacion de tecla del usuario lanza una nueva búsqueda
-    let patron = inputSearch.value.trim()
-    phonebookToTable( phonebook.filter( 
-        c => c.name.toLowerCase().includes(patron.toLowerCase() )
-            || c.number.includes(patron) ) )
+    filterPhonebook(phonebook)
 })
+btnShowFav.addEventListener("click",function(){
+    showFavs = !showFavs
+    //alternar aspecto del botón
+    /* if (showFavs) {
+        btnShowFav.textContent = "Show every contact"
+        btnShowFav.classList.replace("btn-primary","btn-warning")
+    } else {
+        btnShowFav.textContent = "Show favorites"
+        btnShowFav.classList.replace("btn-warning","btn-primary")
+    } */
+    //alternativa sin IF-ELSE
+    btnShowFav.textContent = showFavs ? "Show every contact" : "Show favorites"
+    btnShowFav.classList.toggle("btn-primary")
+    btnShowFav.classList.toggle("btn-warning")
+
+    filterPhonebook(phonebook)
+})
+
+
+
+
+
+
+thName.addEventListener("click",function() {
+    //array.sort()
+    //dentro de los paréntesis hay que indicar una función flecha
+    // que reciba 2 parámetros (a,b), en este caso son 2 contactos
+    // del array. El código de la función debe devolver un nº negativo
+    // si consideras que el elemento a debe estar antes que el b.
+    // La función devolverá un nº positivo si consideras que
+    // el elemento b debe ir antes que el a.
+    filterPhonebook( phonebook.sort( (a,b) => {
+        if ( a.name.toLowerCase() < b.name.toLowerCase() ) return -1
+        else return 1
+    }) )
+})
+
+
+
+
+
+
+
+
+
+
+
 
 //funciones auxiliares
 function addContact() {
@@ -110,6 +157,14 @@ function deleteContactFromPhonebook(name,number) {
         phonebook.splice(index,1)
         saveToLS()
     }
+}
+function filterPhonebook(phonebook) {
+    let patron = inputSearch.value.trim()
+    phonebookToTable( phonebook.filter( 
+        c => ( c.name.toLowerCase().includes(patron.toLowerCase() )
+            || c.number.includes(patron) )
+            && ( (showFavs && c.favorite ) || (!showFavs) )
+         ) )
 }
 function phonebookToTable(phonebook) {
     phonebookTbody.innerHTML = ""
