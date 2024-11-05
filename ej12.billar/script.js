@@ -4,12 +4,14 @@ const bolas = []
 
 const ANCHURA_TABLERO = 900
 const ALTURA_TABLERO = 450
+const ANCHURA_BOLA = 30
+const ALTURA_BOLA = 30
 
 //código automático
 tablero.style.width = ANCHURA_TABLERO + "px"
 tablero.style.height = ALTURA_TABLERO + "px"
-addBola(1)
-let mueveBolas = setInterval(moverBolas,50)
+addBola(10)
+let mueveBolas = setInterval(moverBolas,5)
 
 //funciones auxiliares
 function addBola(num) {
@@ -17,13 +19,29 @@ function addBola(num) {
         let nuevaBola = document.createElement("DIV") 
         nuevaBola.classList.add("bola")
         tablero.append(nuevaBola)
-        bolas.push(nuevaBola)
-        nuevaBola.style.top = "1px"
-        nuevaBola.style.left = "1px"
+
+        let top0 = Math.random()* (ALTURA_TABLERO - ALTURA_BOLA)
+        let left0 = Math.random()* (ANCHURA_TABLERO - ANCHURA_BOLA)
+        let vely0 = Math.random()*10 - 5
+        let velx0 = Math.random()*10 - 5
+        let r0 = Math.floor(Math.random()*255)
+        let g0 = Math.floor(Math.random()*255)
+        let b0 = Math.floor(Math.random()*255)
+        let color0 = `rgb( ${r0} , ${g0} , ${b0} )`
+        nuevaBola.style.backgroundColor = color0
+
+        let nuevaInstanciaBola = new Bola(nuevaBola,top0,left0,vely0,velx0,color0)
+        console.log(nuevaInstanciaBola)
+        bolas.push(nuevaInstanciaBola)
 
     }
 }
 function moverBolas() {
-    bolas[0].style.top = parseInt(bolas[0].style.top) + 1 + "px"
-    bolas[0].style.left = parseInt(bolas[0].style.left) + 1 + "px"
+    console.log("entra")
+    bolas.forEach( b => {
+        b.top = b.top + b.vely
+        b.left = b.left + b.velx
+        b.punteroDiv.style.top = b.top + "px"
+        b.punteroDiv.style.left = b.left + "px"
+    })
 }
