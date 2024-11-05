@@ -10,8 +10,8 @@ const ALTURA_BOLA = 30
 //código automático
 tablero.style.width = ANCHURA_TABLERO + "px"
 tablero.style.height = ALTURA_TABLERO + "px"
-addBola(10)
-let mueveBolas = setInterval(moverBolas,5)
+addBola(1)
+let mueveBolas = setInterval(moverBolas,10)
 
 //funciones auxiliares
 function addBola(num) {
@@ -39,9 +39,16 @@ function addBola(num) {
 function moverBolas() {
     console.log("entra")
     bolas.forEach( b => {
+        //actualizar la posicion de la bola en la instancia JS
         b.top = b.top + b.vely
         b.left = b.left + b.velx
+        //actualizar la posicion de la bola en el arbol DOM
         b.punteroDiv.style.top = b.top + "px"
         b.punteroDiv.style.left = b.left + "px"
+        //comprobar si la bola ha superado los limites del tablero
+        if (b.top < 0 || b.top > ALTURA_TABLERO - ALTURA_BOLA)
+            b.vely = -b.vely //cambiar el signo de vel vertical
+        if (b.left < 0 || b.left > ANCHURA_TABLERO - ANCHURA_BOLA)
+            b.velx = -b.velx //cambiar el signo de vel horizontal
     })
 }
