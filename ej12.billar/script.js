@@ -11,10 +11,16 @@ const ALTURA_BOLA = 30
 tablero.style.width = ANCHURA_TABLERO + "px"
 tablero.style.height = ALTURA_TABLERO + "px"
 addBola(1)
+//INTERVAL PARA QUE LAS BOLAS ACTUALICEN SU POSICION CADA X MILISEGUNDOS
 let mueveBolas = setInterval(moverBolas,10)
+//INTERVAL PARA QUE CADA SEGUNDO APAREZCA UNA NUEVA BOLA EN EL TABLERO
+let añadeBolas = setInterval( addBola ,1000)
+// DETENER PASADOS 10 SEGUNDOS EL INTERVAL QUE AÑADE BOLAS
+setTimeout( () => {clearInterval(añadeBolas)} , 10000)
+
 
 //funciones auxiliares
-function addBola(num) {
+function addBola(num = 1) {
     for (let i=1; i<= num; i++) {
         let nuevaBola = document.createElement("DIV") 
         nuevaBola.classList.add("bola")
