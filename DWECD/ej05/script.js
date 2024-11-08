@@ -5,12 +5,18 @@ const matriculadoCkb = document.querySelector("#matriculadoCkb")
 const insertar = document.querySelector("#insertar")
 
 const ordenar1 = document.querySelector("#ordenar1")
+const ordenar2 = document.querySelector("#ordenar2")
+const ordenar3 = document.querySelector("#ordenar3")
+const ordenar4 = document.querySelector("#ordenar4")
 
+const filtrar = document.querySelector("#filtrar")
 
+const precioMinInput = document.querySelector("#precioMinInput")
+const precioMaxInput = document.querySelector("#precioMaxInput")
 
 const salida = document.querySelector("#salida")
 
-const tecnologías = ["ninguno","Combustión","Eléctrico","Híbrido"]
+const tecnologías = ["ninguno","Combustión","Híbrido","Eléctrico"]
 
 const coches = []
 coches.push( {
@@ -21,7 +27,7 @@ coches.push( {
 } )
 coches.push( {
     mo: "skkoda fabia",
-    t: 2,
+    t: 3,
     p: 22500,
     ma: false
 } )
@@ -54,6 +60,87 @@ insertar.addEventListener("click", function() {
     listarBD(coches)
 })
 
+
+
+
+
+filtrar.addEventListener("click", function() {
+    let min = parseInt(precioMinInput.value.trim())
+    let max = parseInt(precioMaxInput.value.trim())
+
+    if (min >= 0)
+        if (max >= 0) {
+            //el usuario ha establecido rango de precios
+            if (min <= max) {
+                listarBD(coches.filter( c => c.p >= min && c.p <= max ))
+                // listarBD(coches.filter( function(c) {
+                //     return c.p >= min && c.p <= max
+                // }))
+            }
+            else {
+                //el usuario ha puesto un min > max
+                precioMinInput.value = max
+                precioMaxInput.value = min
+                listarBD(coches.filter( c => c.p >= max && c.p <= min ))
+            }
+        }
+        else {
+            //el usuario ha establecido un precio min (desde ahí hasta infinito)
+            listarBD(coches.filter( c => c.p >= min ))
+        }
+    else
+        if (max >= 0) {
+            //el usuario ha establecido un precio max (desde 0 hasta ahí)
+            listarBD(coches.filter( c => c.p <= max ))
+        }
+        else {
+            listarBD(coches)
+        }
+
+})
+
+/*
+SLICE crea nuevos arrays
+let coches = coches.slice() obtener una copia completa del array coches
+let coches = coches.slice(3) obtener una copia del array coches pero solo desde el indice 3 hasta el final
+let coches = coches.slice(3,6) obtener una copia del array coches pero solo desde el indice 3 hasta el 5
+
+SPLICE modifica el array
+coches.splice(n) //borrar todos los elementos a partir del indice n (incluido)
+coches.splice(m,n) //borrar n elementos a partir del indice m (incluido m)
+coches.splice(m,n,x) //borrar n elementos a partir del indice m (incluido m) e insertar x en la posición m
+coches.splice(m,n,x,y,z) //borrar n elementos a partir del indice m (incluido m) e insertar x,y,z a partir de la posición m
+
+FIND
+
+FINDINDEX
+
+MAP
+
+REDUCE
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ordenar1.addEventListener("click", function() {
     //primero hacer copia y ordenar e imprimir dicha copia
     listarBD(coches.slice().sort( (a,b) => {
@@ -61,6 +148,19 @@ ordenar1.addEventListener("click", function() {
         else return 1 //intercambiar "a" y "b"
     }))
 })
+
+ordenar2.addEventListener("click", function() {
+    listarBD(coches.slice().sort( (a,b) => {
+        if ( tecnologías[a.t] <= tecnologías[b.t] ) return 1 //dejar "a" delante de "b"
+        else return -1 //intercambiar "a" y "b"
+    }))
+})
+
+ordenar3.addEventListener("click", function() {
+    //primero hacer copia y ordenar e imprimir dicha copia
+    listarBD(coches.slice().sort( (a,b) => b.p - a.p ))
+})
+
 
 function listarBD(listado) {
     salida.textContent = ""
