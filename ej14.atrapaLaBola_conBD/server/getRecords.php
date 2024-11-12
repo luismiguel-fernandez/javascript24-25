@@ -13,13 +13,10 @@ if(isset($_GET['topn'])) {
         */
     }
 
-    $servidor = 'localhost';
-	$bd = 'atrapaLaBola';
-	$user = 'root';
-	$pw = '';
-	$con = mysql_connect($servidor,$user,$pw);
-	mysql_select_db($bd, $con);
-	mysql_set_charset('utf8');
+    $server = "mysql:dbname=atrapaLaBola";
+	$user = "root";
+	$pw = "";
+	$conexion = new PDO($server,$user,$pw,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
     
     echo json_encode( queryRecords($_GET['topn'],$con) );
 } else {
