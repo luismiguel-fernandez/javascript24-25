@@ -2,19 +2,15 @@ const ANCHURA_TABLERO = 600
 const ALTURA_TABLERO = 300
 const DIAMETRO_BOLA = 30
 const DURACION = 10
+const LIMITE = 5    
 
-let records
-if (localStorage.getItem("records")) {
-    records = JSON.parse( localStorage.getItem("records") )
-} else {
-    records = [
+let records = [
         {name: "Andrew", points: 5},
         {name: "Pamela", points: 4},
         {name: "Elisabeth", points: 3},
         {name: "George", points: 2},
         {name: "Caroline", points: 1}
     ]
-}
 
 const btnEmpezar = document.querySelector("#btnEmpezar")
 const tablero = document.querySelector("#tablero")
@@ -82,16 +78,26 @@ bola.addEventListener("click", function(){
 
 function listarRecords() {
     cuerpoRecords.innerHTML = ""
-    records.forEach( (r,index) => {
-        //crear una fila de la tabla por cada record del array records
-        let newRow = cuerpoRecords.insertRow()
-        let newCell1 = newRow.insertCell()
-        let newCell2 = newRow.insertCell()
-        let newCell3 = newRow.insertCell()
-        newCell1.textContent = index + 1
-        newCell2.textContent = r.name
-        newCell3.textContent = r.points
+
+    //recuperar el array de records de la BD
+    fetch("server/getRecords.php?topn=" + LIMITE)
+    .then( resp => resp.json() )
+    .then( records => {
+        records.forEach( (r,index) => {
+            //crear una fila de la tabla por cada record del array records
+            let newRow = cuerpoRecords.insertRow()
+            let newCell1 = newRow.insertCell()
+            let newCell2 = newRow.insertCell()
+            let newCell3 = newRow.insertCell()
+            newCell1.textContent = index + 1
+            newCell2.textContent = r.nombre
+            newCell3.textContent = r.puntos
+        })
     })
+
+
+
+
 }
 
 function moverBola(){ 
