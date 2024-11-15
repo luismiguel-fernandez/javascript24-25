@@ -2,7 +2,7 @@ const ANCHURA_TABLERO = 600
 const ALTURA_TABLERO = 300
 const DIAMETRO_BOLA = 30
 const DURACION = 10
-const LIMITE = 3   
+const LIMITE = 6   
 
 let records = [
         {name: "Andrew", points: 5},
@@ -78,7 +78,6 @@ bola.addEventListener("click", function(){
 
 function listarRecords() {
     cuerpoRecords.innerHTML = ""
-
     //recuperar el array de records de la BD
     fetch("server/getRecords.php?topn=" + LIMITE)
     .then( resp => resp.json() )
@@ -94,8 +93,6 @@ function listarRecords() {
             newCell3.textContent = r.puntos
         })
     })
-
-
 }
 
 function moverBola(){ 
@@ -111,7 +108,16 @@ function terminarPartida() {
     if ( puntos > records[records.length - 1].points ) {
         nombre = prompt("Escribe tu nombre")
         //hacer un FETCH para insertar en BD
-        fetch("server/setRecords?nombre=" + nombre + "&puntos=" + puntos)
-        .then( listarRecords() )
+        
+        //fetch("server/setRecords.php?nombre=" + nombre + "&puntos=" + puntos)
+        if (nombre) {
+            let params = new URLSearchParams("nombre="+nombre+"&puntos="+puntos)
+            let opciones = {
+                method: "POST",
+                body: params
+            }
+            fetch("server/setRecords.php",opciones)
+            .then( () => listarRecords() )
+        }
     }
 }

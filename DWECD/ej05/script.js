@@ -112,12 +112,34 @@ coches.splice(m,n,x) //borrar n elementos a partir del indice m (incluido m) e i
 coches.splice(m,n,x,y,z) //borrar n elementos a partir del indice m (incluido m) e insertar x,y,z a partir de la posición m
 
 FIND
+let fordka = coches.find( c => c.mo == "ford ka")
+fordka.p *= 1.10
 
 FINDINDEX
+let posicionFordKa = coches.findIndex( c => c.mo == "ford ka" )
+coches.splice(posicionFordKa,1)
+
+INCLUDES
+[1,2,3].includes(1) //true
+["abc","xyz","123"].includes("abc") //true
+["abc","xyz","123"].includes("12") //false
+[
+ {nombre:Luismi,edad:22},
+ {nombre:candela,edad:21}
+].includes({nombre:Luismi,edad:22}) //false
+[
+ {nombre:Luismi,edad:22},
+ {nombre:candela,edad:21}
+].find( p => p.nombre == "Luismi" && p.edad == 22) //true
+
 
 MAP
+let numeros = [1,2,3,4,5]
+let dobleNumeros = numeros.map( e => e*2)
+    // dobleNumeros = [2,4,6,8,10]
 
 REDUCE
+
 
 */
 
@@ -183,3 +205,7 @@ function listarBD(listado) {
 <br>
 <label id="salida"></label>
 */
+
+
+Array.prototype.find()
+Array.prototype.findIndex()
