@@ -59,6 +59,12 @@ if(isset($_GET['ultimo'])) {
 	$con = mysql_connect($servidor,$user,$pw);
 	mysql_select_db($bd, $con);
 	mysql_set_charset('utf8');
+
+    $server = "mysql:dbname=atrapaLaBola";
+	$user = "root";
+	$pw = "";
+	$con = new PDO($server,$user,$pw,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+
     
     echo json_encode( queryAll($_GET['ultimo'],$con) );
 } else {
