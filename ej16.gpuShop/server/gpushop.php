@@ -1,16 +1,18 @@
 <?php
 class producto {
+    var $id;
     var $titulo;
     var $precio;
 }
 function queryProducts($pattern,$conexion) {
-    $consulta = "SELECT titProducto,precioProducto FROM productos WHERE titProducto LIKE '%".$pattern."%'";
+    $consulta = "SELECT idProducto,titProducto,precioProducto FROM productos WHERE titProducto LIKE '%".$pattern."%'";
     $sen = $conexion->prepare($consulta);
     $sen->execute();
 
     $result = array();
     while($row = $sen->fetch(PDO::FETCH_NAMED)){
         $producto = new producto();
+        $producto->id = $row['idProducto'];
         $producto->titulo = $row['titProducto'];
         $producto->precio = $row['precioProducto'];
         $result[] = $producto;
