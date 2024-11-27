@@ -4,15 +4,70 @@ const tableCart = document.querySelector("#tableSeleccionados")
 const cuerpoCart = tableCart.querySelector("tbody")
 const pieCart = tableCart.querySelector("tfoot")
 
+const celdaTotalArticulos = pieCart.querySelectorAll("td")[0]
+const celdaTotalPrecio = pieCart.querySelectorAll("td")[1]
+
 let cart = []
 
 solicitarProductos("")
 
 buscador.addEventListener("keyup",function(ev){
-    if (ev.key == "Enter") {
-        solicitarProductos( this.value.trim() )
-    }
+    solicitarProductos( this.value.trim() )
 })
+
+function actualizarCartEnPantalla(cart) {
+    cuerpoCart.innerHTML = ""
+    cart.forEach( p => {
+        let nuevaFila = cuerpoCart.insertRow() //createElement + append
+        let celda1 = nuevaFila.insertCell()
+        let celda2 = nuevaFila.insertCell()
+        let celda3 = nuevaFila.insertCell()
+        let celda4 = nuevaFila.insertCell()
+        let celda5 = nuevaFila.insertCell()
+        celda1.textContent = p.titulo
+        celda2.textContent = p.precio + "€"
+        celda3.textContent = p.unidades
+        celda4.textContent = p.unidades * p.precio  + "€"
+        let botonBorrar = document.createElement("button")
+        botonBorrar.textContent = "Borrar"
+        botonBorrar.addEventListener("click",function(){
+            let encontrada = cart.find( a => a.id == p.id)
+            if (encontrada && encontrada.unidades > 1) {
+                // reducir el número de unidades
+                encontrada.unidades--
+                //actualizar las celdas del TFOOT con los totales
+                actualizarTotales()
+                //actualizar también las celdas de la fila donde se 
+                // muestran el número de unidades y el subtotal de € de esa GPU
+                let celdaUnidades = botonBorrar.parentNode.parentNode.children[2]
+                celdaUnidades.textContent = encontrada.unidades
+                let celdaSubTotal = botonBorrar.parentNode.parentNode.children[3]
+                celdaSubTotal.textContent = encontrada.unidades * encontrada.precio + "€"
+            } else {
+                // solo hay 1 unidad -> borra todo el articulo
+                nuevaFila.remove() //borra pero solo del DOM (vista del usuario)
+                let posicion = cart.findIndex( a => a.id == p.id)
+                cart.splice(posicion,1)
+                actualizarTotales()
+            }
+        })
+        celda5.append(botonBorrar)
+    })
+    actualizarTotales()
+}
+
+function actualizarTotales() {
+    let numArticulos = 0
+    cart.forEach( p => {
+        numArticulos += p.unidades
+    })
+    celdaTotalArticulos.textContent = numArticulos + " artículos"
+    let precioTotal = 0
+    cart.forEach( p => {
+        precioTotal += p.precio * p.unidades
+    })
+    celdaTotalPrecio.textContent = precioTotal + "€"
+}
 
 function addToCart(gpu) {
     //comprobar si la GPU ya está en el carrito
@@ -23,8 +78,7 @@ function addToCart(gpu) {
     } else {
         //añado la GPU a mi array
         cart.push( {
-            titulo: gpu.titulo,
-            precio: gpu.precio,
+            ...gpu, //equivale a  id,titulo,precio
             unidades: 1
         })
         console.table(cart)
@@ -33,12 +87,7 @@ function addToCart(gpu) {
 
 
 
-    // let nuevaFila = cuerpoCart.insertRow()
-    // let celda1 = nuevaFila.insertCell()
-    // let celda2 = nuevaFila.insertCell()
-    // let celda3 = nuevaFila.insertCell()
-    // let celda4 = nuevaFila.insertCell()
-    // let celda5 = nuevaFila.insertCell()
+
 }
 
 function mostrarResultados(json) {
