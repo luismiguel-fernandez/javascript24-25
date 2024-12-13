@@ -114,3 +114,32 @@ function solicitarProductos(patron) {
     //cuando acabe el parseo de los datos útiles de la respuesta, los procesamos
     .then( json => mostrarResultados(json) )
 }
+
+
+const tableResul = document.querySelector("#tableResultados")
+const celdaPrecio = tableResul.querySelector("th:nth-child(1)")
+//const celdaPrecio = document.querySelectorAll("#tableResultados>thead>tr>th")[1]
+
+celdaPrecio.addEventListener("click",function(){
+    celdaPrecio.classList.toggle("amarillo")
+
+    /*
+    si el objeto tiene la clase amarillo, se la quita
+    si el objeto no tiene la clase amarillo, se la pone
+    */
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
